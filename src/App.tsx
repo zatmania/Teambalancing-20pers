@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Users, UserPlus, RefreshCw } from 'lucide-react';
 import { Person, Team } from './types';
 import { distributeTeams } from './utils';
@@ -36,6 +36,10 @@ function App() {
   const handleReset = () => {
     setPeople([]);
     setTeams([]);
+  };
+
+  const handleRemove = (id: number) => {
+    setPeople(people.filter((person) => person.id !== id));
   };
 
   return (
@@ -80,12 +84,21 @@ function App() {
             <h2 className="text-xl font-semibold mb-4">Liste des personnes</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {people.map((person) => (
-                <div key={person.id} className="bg-gray-50 p-3 rounded">
+                <div key={person.id} className="bg-gray-50 p-3 rounded relative">
+                  <div className="absolute top-2 right-2">
+                  <button
+                        className="bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs"
+                        onClick={() => handleRemove(person.id)}
+            >
+                      X
+                    </button>
+                  </div>
                   <p className="font-medium">{person.name}</p>
                   <p className="text-sm text-gray-600">{person.grade} points</p>
                 </div>
               ))}
             </div>
+
           </div>
 
           <div className="flex gap-4 justify-center mb-8">
